@@ -126,3 +126,41 @@ local Slider = MainTab:CreateSlider({
         game.Players.LocalPlayer.Character.Humanoid.WalkSpeed = (Value)
    end,
 })
+
+local NoclipToggle = MainSection:CreateToggle("Noclip", nil, function(value)
+        -- Noclip logic here
+        if value then
+            -- Enable noclip
+            print("Noclip enabled")
+            noclip = true
+        else
+            -- Disable noclip
+            print("Noclip disabled")
+            noclip = false
+        end
+    end)
+    
+    -- Noclip script
+    local player = game.Players.LocalPlayer
+    local mouse = player:GetMouse()
+    local runService = game:GetService("RunService")
+    
+    local function noclipScript()
+        mouse.KeyDown:Connect(function(key)
+            if key == "e" then
+                noclip = not noclip
+                msg.Text = "Noclip: " .. tostring(noclip)
+            elseif key == "t" then
+                msg:Destroy()
+            end
+        end)
+    
+        runService.Stepped:Connect(function()
+            if noclip then
+                player.Character.Humanoid:ChangeState(11)
+            end
+        end)
+    end
+    
+    noclipScript()
+end
